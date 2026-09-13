@@ -5,6 +5,22 @@
     src: url(../fonts/SourceCodePro.ttf) format("truetype");
 }
 
+@font-face {
+    font-family: "YekanBakh";
+    src: url(../fonts/YekanBakh-Regular.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
+@font-face {
+    font-family: "YekanBakh";
+    src: url(../fonts/YekanBakh-Bold.ttf) format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
 .xterm-viewport::-webkit-scrollbar {
     background: rgba(0, 0, 0, .125);
 }

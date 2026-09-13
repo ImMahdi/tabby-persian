@@ -22,6 +22,7 @@ export function getCSSFontFamily (config: any): string {
     if (config.terminal.fallbackFont) {
         fonts.push(config.terminal.fallbackFont)
     }
+    fonts.push('YekanBakh')
     fonts.push('monospace-fallback')
     fonts.push('monospace')
     fonts = fonts.map(x => `"${x}"`)
