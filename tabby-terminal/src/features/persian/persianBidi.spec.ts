@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { processBidiLine, processBidiText, isRTL } from './persianBidi'
+import { processBidiLine, processBidiText, isRTL } from './persianBidi.ts'
 
 test('isRTL detects presence of Persian characters', () => {
     assert.strictEqual(isRTL('سلام دنیا'), true)

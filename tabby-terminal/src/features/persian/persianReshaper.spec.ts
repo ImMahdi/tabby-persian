@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { reshapePersian, isPersianChar } from './persianReshaper'
+import { reshapePersian, isPersianChar } from './persianReshaper.ts'
 
 test('isPersianChar identifies Persian/Arabic unicode points', () => {
     assert.strictEqual(isPersianChar('س'), true)

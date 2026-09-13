@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { AgentMarkdownStyler } from './agentMarkdownStyler'
+import { AgentMarkdownStyler } from './agentMarkdownStyler.ts'
 
 test('AgentMarkdownStyler styles Markdown headings with bold and glyphs', () => {
     const styler = new AgentMarkdownStyler()

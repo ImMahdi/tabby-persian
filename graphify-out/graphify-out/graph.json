@@ -1,0 +1,227 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "apply_monorepo_patches()",
+      "file_type": "code",
+      "source_file": "build_graph.py",
+      "source_location": "L24",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "build_graph_apply_monorepo_patches",
+      "community": 0,
+      "community_name": "Module Component (build_graph.py)",
+      "norm_label": "apply_monorepo_patches()"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "build_graph.py",
+      "source_location": "L109",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "build_graph_run",
+      "community": 0,
+      "community_name": "Module Component (build_graph.py)",
+      "norm_label": "run()"
+    },
+    {
+      "label": "audit()",
+      "file_type": "code",
+      "source_file": "audit_graph.py",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "audit_graph_audit",
+      "community": 1,
+      "community_name": "Module Component (audit_graph.py)",
+      "norm_label": "audit()"
+    },
+    {
+      "label": "Path",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "path",
+      "community": 0,
+      "community_name": "Module Component (build_graph.py)",
+      "norm_label": "path"
+    },
+    {
+      "label": "Apply AST patches to accurately resolve monorepo TypeScript path aliases and\u2026",
+      "file_type": "rationale",
+      "source_file": "build_graph.py",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "build_graph_rationale_25",
+      "community": 0,
+      "community_name": "Module Component (build_graph.py)",
+      "norm_label": "apply ast patches to accurately resolve monorepo typescript path aliases and..."
+    },
+    {
+      "label": "audit_graph.py",
+      "file_type": "code",
+      "source_file": "audit_graph.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "audit_graph",
+      "community": 1,
+      "community_name": "Module Component (audit_graph.py)",
+      "norm_label": "audit_graph.py"
+    },
+    {
+      "label": "Automated Knowledge Graph Quality, Completeness & Defect Audit Suite for Tabby\u2026",
+      "file_type": "rationale",
+      "source_file": "audit_graph.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "audit_graph_rationale_1",
+      "community": 1,
+      "community_name": "Module Component (audit_graph.py)",
+      "norm_label": "automated knowledge graph quality, completeness & defect audit suite for tabby..."
+    },
+    {
+      "label": "build_graph.py",
+      "file_type": "code",
+      "source_file": "build_graph.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "build_graph",
+      "community": 2,
+      "community_name": "Module Component (build_graph.py)",
+      "norm_label": "build_graph.py"
+    },
+    {
+      "label": "Comprehensive Enhanced Graphify Pipeline for Tabby (tabby-persian) With\u2026",
+      "file_type": "rationale",
+      "source_file": "build_graph.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "build_graph_rationale_1",
+      "community": 2,
+      "community_name": "Module Component (build_graph.py)",
+      "norm_label": "comprehensive enhanced graphify pipeline for tabby (tabby-persian) with..."
+    }
+  ],
+  "links": [
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph_run",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L125",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph_run",
+      "target": "build_graph_apply_monorepo_patches",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph_apply_monorepo_patches",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "audit_graph.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "audit_graph",
+      "target": "audit_graph_audit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph",
+      "target": "build_graph_run",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph",
+      "target": "build_graph_apply_monorepo_patches",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "audit_graph.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "audit_graph_rationale_1",
+      "target": "audit_graph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph_rationale_1",
+      "target": "build_graph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "build_graph.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "build_graph_rationale_25",
+      "target": "build_graph_apply_monorepo_patches",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "audit_graph.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "audit_graph_audit",
+      "target": "path"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "29121184715fbfe9d9cade7b903beb5a17ab3cdd"
+}
