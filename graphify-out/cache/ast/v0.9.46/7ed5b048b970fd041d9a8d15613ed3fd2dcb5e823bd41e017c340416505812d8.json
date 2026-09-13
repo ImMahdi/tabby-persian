@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_tabby_uac_uac_stdafx_cpp", "label": "stdafx.cpp", "file_type": "code", "source_file": "tabby-uac/UAC/stdafx.cpp", "source_location": "L1"}], "edges": [], "raw_calls": [], "parse_errors": {"first_error_line": 1, "multiline_error": true}}
