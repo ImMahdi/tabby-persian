@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs'
 import { Logger } from 'tabby-core'
 import { LoginScriptProcessor, LoginScriptsOptions } from './middleware/loginScriptProcessing'
 import { OSCProcessor } from './middleware/oscProcessing'
+import { PersianAgentMiddleware, PersianAgentOptions } from './middleware/persianAgentMiddleware'
 import { SessionMiddlewareStack } from './api/middleware'
 
 /**
@@ -17,6 +18,7 @@ export abstract class BaseSession {
     protected closed = new Subject<void>()
     protected destroyed = new Subject<void>()
     protected loginScriptProcessor: LoginScriptProcessor | null = null
+    persianAgentProcessor: PersianAgentMiddleware | null = null
     protected reportedCWD?: string
     private initialDataBuffer = Buffer.from('')
     private initialDataBufferReleased = false
@@ -69,6 +71,16 @@ export abstract class BaseSession {
         this.loginScriptProcessor = newProcessor
     }
 
+    setPersianAgentOptions (options: PersianAgentOptions): void {
+        const newProcessor = new PersianAgentMiddleware(options)
+        if (this.persianAgentProcessor) {
+            this.middleware.replace(this.persianAgentProcessor, newProcessor)
+        } else {
+            this.middleware.push(newProcessor)
+        }
+        this.persianAgentProcessor = newProcessor
+    }
+
     async destroy (): Promise<void> {
         if (this.open) {
             this.logger.info('Destroying')
@@ -92,3 +104,6 @@ export abstract class BaseSession {
     abstract supportsWorkingDirectory (): boolean
     abstract getWorkingDirectory (): Promise<string|null>
 }
+
+export { PersianAgentMiddleware, PersianAgentOptions }
+
