@@ -72,6 +72,11 @@ export class TerminalTabComponent extends BaseTerminalTabComponent<LocalProfile>
         })
 
         this.setSession(session)
+
+        if (this.profile.options?.enablePersianBidi || this.profile.options?.enableAgentMarkdown) {
+            this.session?.setPersianAgentOptions?.(this.profile.options)
+        }
+
         this.recoveryStateChangedHint.next()
     }
 

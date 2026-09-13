@@ -46,6 +46,9 @@ export interface SessionOptions {
     shellType: ShellType | null
     pauseAfterExit: boolean
     runAsAdministrator: boolean
+    enablePersianBidi?: boolean
+    enableAgentMarkdown?: boolean
+    useYekanFont?: boolean
 }
 
 export interface LocalProfile extends BaseTerminalProfile {

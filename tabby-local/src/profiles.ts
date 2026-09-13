@@ -2,15 +2,20 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker'
 import deepClone from 'clone-deep'
 import { Injectable, Inject } from '@angular/core'
 import { ProfileProvider, NewTabParameters, ConfigService, SplitTabComponent, AppService, PartialProfile } from 'tabby-core'
-import { TerminalTabComponent } from './components/terminalTab.component'
-import { LocalProfileSettingsComponent } from './components/localProfileSettings.component'
-import { ShellProvider, Shell, SessionOptions, LocalProfile } from './api'
+import type { TerminalTabComponent } from './components/terminalTab.component'
+import type { ShellProvider, Shell, SessionOptions, LocalProfile } from './api'
 
-@Injectable({ providedIn: 'root' })
 export class LocalProfilesService extends ProfileProvider<LocalProfile> {
     id = 'local'
     name = _('Local terminal')
-    settingsComponent = LocalProfileSettingsComponent
+    get settingsComponent (): any {
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            return require('./components/localProfileSettings.component').LocalProfileSettingsComponent
+        } catch {
+            return null
+        }
+    }
     configDefaults = {
         options: {
             restoreFromPTYID: null,
@@ -25,19 +30,29 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
             shellType: null,
             pauseAfterExit: false,
             runAsAdministrator: false,
+            enablePersianBidi: false,
+            enableAgentMarkdown: false,
+            useYekanFont: false,
         },
     }
 
+    private app: AppService
+    private config: ConfigService
+    private shellProviders: ShellProvider[]
+
     constructor (
-        private app: AppService,
-        private config: ConfigService,
-        @Inject(ShellProvider) private shellProviders: ShellProvider[],
+        app: AppService,
+        config: ConfigService,
+        shellProviders: ShellProvider[],
     ) {
         super()
+        this.app = app
+        this.config = config
+        this.shellProviders = shellProviders
     }
 
     async getBuiltinProfiles (): Promise<PartialProfile<LocalProfile>[]> {
-        return (await this.getShells()).map(shell => ({
+        const profiles: PartialProfile<LocalProfile>[] = (await this.getShells()).map(shell => ({
             id: `local:${shell.id}`,
             type: 'local',
             name: shell.name,
@@ -45,26 +60,45 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
             options: this.optionsFromShell(shell),
             isBuiltin: true,
         }))
+
+        profiles.push({
+            id: 'local:persian-agent',
+            type: 'local',
+            name: 'Persian & Agent Terminal',
+            icon: 'fas fa-robot',
+            options: {
+                ...this.configDefaults.options,
+                command: '',
+                enablePersianBidi: true,
+                enableAgentMarkdown: true,
+                useYekanFont: true,
+            },
+            isBuiltin: true,
+        })
+
+        return profiles
     }
 
     async getNewTabParameters (profile: LocalProfile): Promise<NewTabParameters<TerminalTabComponent>> {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { TerminalTabComponent: TabComponent } = require('./components/terminalTab.component')
         profile = deepClone(profile)
 
         if (!profile.options.cwd) {
-            if (this.app.activeTab instanceof TerminalTabComponent && this.app.activeTab.session) {
+            if (this.app.activeTab instanceof TabComponent && this.app.activeTab.session) {
                 profile.options.cwd = await this.app.activeTab.session.getWorkingDirectory() ?? null
             }
             if (this.app.activeTab instanceof SplitTabComponent) {
                 const focusedTab = this.app.activeTab.getFocusedTab()
 
-                if (focusedTab instanceof TerminalTabComponent && focusedTab.session) {
+                if (focusedTab instanceof TabComponent && focusedTab.session) {
                     profile.options.cwd = await focusedTab.session.getWorkingDirectory() ?? null
                 }
             }
         }
 
         return {
-            type: TerminalTabComponent,
+            type: TabComponent,
             inputs: {
                 profile,
             },
@@ -72,7 +106,7 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
     }
 
     async getShells (): Promise<Shell[]> {
-        const shellLists = await Promise.all(this.config.enabledServices(this.shellProviders).map(x => x.provide()))
+        const shellLists = await Promise.all((this.config.enabledServices ? this.config.enabledServices(this.shellProviders) : this.shellProviders).map(x => x.provide()))
         return shellLists.reduce((a, b) => a.concat(b), [])
     }
 
@@ -95,3 +129,6 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
         return profile.options?.command ?? ''
     }
 }
+
+Injectable({ providedIn: 'root' })(LocalProfilesService)
+
