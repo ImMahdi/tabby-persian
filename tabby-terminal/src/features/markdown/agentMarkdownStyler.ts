@@ -23,6 +23,13 @@ export class AgentMarkdownStyler {
     }
 
     /**
+     * Returns current code block language if inside a code block.
+     */
+    getCodeBlockLang(): string {
+        return this.codeBlockLang
+    }
+
+    /**
      * Inspects terminal escape sequences to detect alternate screen buffer transitions.
      * Handles standard xterm 1049, 1047, and 47 sequences.
      */

@@ -2,20 +2,15 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker'
 import deepClone from 'clone-deep'
 import { Injectable, Inject } from '@angular/core'
 import { ProfileProvider, NewTabParameters, ConfigService, SplitTabComponent, AppService, PartialProfile } from 'tabby-core'
-import type { TerminalTabComponent } from './components/terminalTab.component'
-import type { ShellProvider, Shell, SessionOptions, LocalProfile } from './api'
+import { TerminalTabComponent } from './components/terminalTab.component'
+import { LocalProfileSettingsComponent } from './components/localProfileSettings.component'
+import { ShellProvider, Shell, SessionOptions, LocalProfile } from './api'
 
+@Injectable({ providedIn: 'root' })
 export class LocalProfilesService extends ProfileProvider<LocalProfile> {
     id = 'local'
     name = _('Local terminal')
-    get settingsComponent (): any {
-        try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            return require('./components/localProfileSettings.component').LocalProfileSettingsComponent
-        } catch {
-            return null
-        }
-    }
+    settingsComponent = LocalProfileSettingsComponent
     configDefaults = {
         options: {
             restoreFromPTYID: null,
@@ -36,19 +31,12 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
         },
     }
 
-    private app: AppService
-    private config: ConfigService
-    private shellProviders: ShellProvider[]
-
     constructor (
-        app: AppService,
-        config: ConfigService,
-        shellProviders: ShellProvider[],
+        private app: AppService,
+        private config: ConfigService,
+        @Inject(ShellProvider) private shellProviders: ShellProvider[],
     ) {
         super()
-        this.app = app
-        this.config = config
-        this.shellProviders = shellProviders
     }
 
     async getBuiltinProfiles (): Promise<PartialProfile<LocalProfile>[]> {
@@ -69,6 +57,7 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
             options: {
                 ...this.configDefaults.options,
                 command: '',
+                env: {},
                 enablePersianBidi: true,
                 enableAgentMarkdown: true,
                 useYekanFont: true,
@@ -80,25 +69,23 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
     }
 
     async getNewTabParameters (profile: LocalProfile): Promise<NewTabParameters<TerminalTabComponent>> {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { TerminalTabComponent: TabComponent } = require('./components/terminalTab.component')
         profile = deepClone(profile)
 
         if (!profile.options.cwd) {
-            if (this.app.activeTab instanceof TabComponent && this.app.activeTab.session) {
+            if (this.app.activeTab instanceof TerminalTabComponent && this.app.activeTab.session) {
                 profile.options.cwd = await this.app.activeTab.session.getWorkingDirectory() ?? null
             }
             if (this.app.activeTab instanceof SplitTabComponent) {
                 const focusedTab = this.app.activeTab.getFocusedTab()
 
-                if (focusedTab instanceof TabComponent && focusedTab.session) {
+                if (focusedTab instanceof TerminalTabComponent && focusedTab.session) {
                     profile.options.cwd = await focusedTab.session.getWorkingDirectory() ?? null
                 }
             }
         }
 
         return {
-            type: TabComponent,
+            type: TerminalTabComponent,
             inputs: {
                 profile,
             },
@@ -106,7 +93,7 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
     }
 
     async getShells (): Promise<Shell[]> {
-        const shellLists = await Promise.all((this.config.enabledServices ? this.config.enabledServices(this.shellProviders) : this.shellProviders).map(x => x.provide()))
+        const shellLists = await Promise.all(this.config.enabledServices(this.shellProviders).map(x => x.provide()))
         return shellLists.reduce((a, b) => a.concat(b), [])
     }
 
@@ -129,6 +116,4 @@ export class LocalProfilesService extends ProfileProvider<LocalProfile> {
         return profile.options?.command ?? ''
     }
 }
-
-Injectable({ providedIn: 'root' })(LocalProfilesService)
 

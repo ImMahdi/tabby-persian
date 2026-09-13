@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { processBidiLine, processBidiText, isRTL } from './persianBidi.ts'
+import { processBidiLine, processBidiText, isRTL } from './persianBidi'
 
 test('isRTL detects presence of Persian characters', () => {
     assert.strictEqual(isRTL('سلام دنیا'), true)
@@ -54,8 +54,7 @@ test('processBidiLine preserves LTR prefix in mixed lines', () => {
 
 test('processBidiLine handles empty or falsy input', () => {
     assert.strictEqual(processBidiLine(''), '')
-    // @ts-expect-error testing falsy inputs
-    assert.strictEqual(processBidiLine(null), '')
+    assert.strictEqual((processBidiLine as any)(null), '')
 })
 
 test('processBidiText preserves CRLF line endings', () => {

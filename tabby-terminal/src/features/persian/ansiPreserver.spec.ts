@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { processWithAnsi, tokenizeAnsi, stripAnsi, hasAnsi } from './ansiPreserver.ts'
+import { processWithAnsi, tokenizeAnsi, stripAnsi, hasAnsi } from './ansiPreserver'
 
 test('tokenizeAnsi separates escape sequences from text content', () => {
     const input = '\x1b[32mHello\x1b[0m World'

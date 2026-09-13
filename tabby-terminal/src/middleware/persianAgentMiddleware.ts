@@ -1,6 +1,6 @@
-import { SessionMiddleware } from '../api/middleware.ts'
-import { AgentMarkdownStyler } from '../features/markdown/agentMarkdownStyler.ts'
-import { processBidiText } from '../features/persian/persianBidi.ts'
+import { SessionMiddleware } from '../api/middleware'
+import { AgentMarkdownStyler } from '../features/markdown/agentMarkdownStyler'
+import { processBidiText } from '../features/persian/persianBidi'
 
 export interface PersianAgentOptions {
     enablePersianBidi?: boolean

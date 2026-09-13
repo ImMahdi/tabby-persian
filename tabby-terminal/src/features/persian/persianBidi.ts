@@ -10,8 +10,8 @@
  * 5. Fast-path bypass for lines without Persian/Arabic characters.
  */
 
-import { reshapePersian, isPersianChar } from './persianReshaper.ts'
-import { tokenizeAnsi, hasAnsi, type AnsiToken } from './ansiPreserver.ts'
+import { reshapePersian } from './persianReshaper'
+import { tokenizeAnsi } from './ansiPreserver'
 
 /**
  * Unicode range regular expression matching Arabic, Persian, and Hebrew characters.
@@ -58,8 +58,8 @@ function reshapePersianAndReverse (text: string): string {
     const reversed: string[] = new Array(chars.length)
 
     for (let i = 0; i < chars.length; i++) {
-        const ch = chars[chars.length - 1 - i]
-        reversed[i] = BRACKET_MIRRORS[ch] || ch
+        const ch = chars[chars.length - 1 - i] ?? ''
+        reversed[i] = (ch ? BRACKET_MIRRORS[ch] : undefined) || ch
     }
 
     return reversed.join('')

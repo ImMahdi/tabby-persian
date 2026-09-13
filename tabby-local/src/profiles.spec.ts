@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { LocalProfilesService } from './profiles.ts'
+import { LocalProfilesService } from './profiles'
 
 test('LocalProfilesService includes Persian & Agent Terminal builtin profile', async () => {
     const mockApp: any = {}

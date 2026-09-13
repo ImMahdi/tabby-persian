@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { SessionMiddlewareStack } from '../api/middleware.ts'
-import { PersianAgentMiddleware } from './persianAgentMiddleware.ts'
+import { SessionMiddlewareStack } from '../api/middleware'
+import { PersianAgentMiddleware } from './persianAgentMiddleware'
 
 test('PersianAgentMiddleware processes output stream with Markdown and BiDi', async () => {
     const middleware = new PersianAgentMiddleware({ enablePersianBidi: true, enableAgentMarkdown: true })
